@@ -1,0 +1,143 @@
+<div class="container-fluid my-4 px-4">
+
+    <div class="row justify-content-center justify-content-center gap-5">
+      <h1 class="px-5">Detalhes Gerais</h1>
+  
+      <div class="card mb-3 bg-body-secondary" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4 align-content-center">
+            <i class="bi bi-person display-1 text-warning"></i>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Nº de Usuários</h5>
+              
+              <p class="card-text display-6">{{this.clients.length}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card mb-3 bg-body-secondary" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4 align-content-center">
+            <i class="bi bi-person-workspace display-1 text-warning"></i>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Nº de Profissionais</h5>
+              
+              <p class="card-text display-6">{{this.profissionals.length}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card mb-3 bg-body-secondary" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4 align-content-center">
+            <i class="bi bi-gear display-1 text-warning"></i>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Nº De Serviços</h5>
+              
+              <p class="card-text display-6">{{this.services.length}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4 align-content-center">
+            <i class="bi bi-currency-dollar display-1 text-success"></i>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Total faturado hoje</h5>
+              
+              <p class="card-text display-6">AO {{this.faturadoHoje}},00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4 align-content-center">
+            <i class="bi bi-currency-dollar display-1 text-success"></i>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Total faturado no mês passado</h5>
+              
+              <p class="card-text display-6">AO {{this.faturadoMesPassado}},00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4 align-content-center">
+            <i class="bi bi-currency-dollar display-1 text-success"></i>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Total faturado ontem</h5>
+              
+              <p class="card-text display-6">AO {{this.faturadoOntem}},00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4 align-content-center">
+            <i class="bi bi-currency-dollar display-1 text-success"></i>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Total faturado neste mês</h5>
+              
+              <p class="card-text display-6">AO {{this.faturadoNesteMes}},00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center my-5 px-5">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Serviço</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Categoria</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-success">
+            <th scope="row">Serviço mais solicitado</th>
+            <td>{{serviceMais.description}}</td>
+            <td>{{serviceMais.price}}</td>
+            <td>{{getCategoryName(serviceMais.categoryId)}}</td>
+          </tr>
+          <tr class="table-danger">
+            <th scope="row">Serviço menos solicitado</th>
+            <td>{{serviceMenos.description}}</td>
+            <td>{{serviceMenos.price}}</td>
+            <td>{{getCategoryName(serviceMenos.categoryId)}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  
+  
+  </div>

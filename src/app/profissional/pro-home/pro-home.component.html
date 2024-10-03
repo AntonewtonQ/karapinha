@@ -1,0 +1,38 @@
+<div class="container-fluid my-4 px-4">
+    <h1 class="my-4">Minha Agenda</h1>
+    <div class="d-flex justify-content-center">
+        
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nº</th>
+          <th scope="col">Hora e data da Marcação</th>
+          <th scope="col">Nome do Cliente</th>
+          <th scope="col">Total a Pagar</th>
+          <th scope="col">Estado</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        @if (bookings.length>0) {
+
+            @for (booking of bookings; track $index) {
+            <tr>
+              <th scope="row">{{$index+1}}</th>
+              <td>{{ formatDate(booking.dateTime)}}</td>
+              <td>{{getUserName(booking.userId)}}</td>
+              <td>{{booking.totalPagar}}</td>
+              <td>{{booking.status}}</td>
+            </tr>
+          }
+
+        }@else {
+          <tr class="text-center">
+            <td colspan="6">Não existem Marcações registradas</td>
+          </tr>
+        }
+        
+      </tbody>
+    </table>
+  </div>

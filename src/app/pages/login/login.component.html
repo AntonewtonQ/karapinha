@@ -1,0 +1,37 @@
+<app-header/>
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-lg-5 bg-lg-secondary border-lg-1 rounded-lg-2 " id="login">
+    <div class="row align-items-center g-lg-5" >
+      
+      <div class="col-md-10 mx-auto col-lg-5 mb-5 mb-lg-0" id="lado-direito">
+        <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            
+          <div class="input-group mt-3">
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-person"></i></span>
+              <input type="text" class="form-control" placeholder="Username or email" aria-label="Username" aria-describedby="basic-addon1" formControlName="userName">
+          </div>
+          @if(loginForm.controls['userName'].invalid &&(loginForm.controls['userName'].touched ||  isFormSubmited|| loginForm.controls['userName'].dirty)){
+            <small class="text-danger">*precisa inserir o username</small>
+          }
+            
+          <div class="input-group mt-3">
+            <span class="input-group-text" id="basic-addon1"><i class="bi bi-asterisk"></i></span>
+            <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" formControlName="password">
+          </div>
+          @if(loginForm.controls['password'].invalid &&(loginForm.controls['password'].touched ||  isFormSubmited|| loginForm.controls['password'].dirty)){
+            <small class="text-danger">*precisa inserir a password</small>
+          }
+
+          
+          <button class="w-100 btn btn-lg btn-dark my-3" type="submit">Entrar</button>
+          <hr class="my-4">
+          <!--<small class="text-body-secondary text-center ">By clicking Sign up, you agree to the terms of use. <br/> </small>-->
+          <small class="text-body-secondary">se ainda não possui uma conta <a class="link-info" [routerLink]="['/signup']">Criar Conta</a>.</small>
+        </form>
+      </div>
+
+      <div class="col-lg-7 text-center text-lg-start border-1" id="lado-esquerdo">
+        <img src="https://images.unsplash.com/flagged/photo-1580820258381-20c91a156841?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid rounded" width="750" alt="">
+      </div>
+    </div>
+  </div>

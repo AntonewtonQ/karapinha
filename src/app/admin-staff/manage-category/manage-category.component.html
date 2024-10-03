@@ -1,0 +1,75 @@
+<div class="container-fluid my-4 px-4">
+    <h1 class="my-4">Lista das Categorias</h1>
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary">Exportar</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i class="bi bi-person-add"></i> Adicionar Categorias</button>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nº</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (categories.length>0) {
+
+            @for (category of categories; track $index) {
+            <tr>
+              <th scope="row">{{$index+1}}</th>
+              <td>{{category.description}}</td>
+             
+              
+              
+              <td class="gap-2 d-flex align-content-end">
+                <button (click)="UpdateCategory(category)" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-warning"> <i class="bi bi-pencil"></i> </button>
+                <button (click)="DeleteCategory(category.id)" class="btn btn-danger"> <i class="bi bi-trash"></i> </button>
+              </td>
+            </tr>
+          }
+
+        }@else {
+          <tr class="text-center">
+            <td colspan="3">Não existem Categorias registrados</td>
+          </tr>
+        }
+        
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ isEditMode ? 'Editar Categoria' : 'Adicionar Categoria' }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelEdit()"></button>
+        </div>
+        <div class="modal-body">
+          <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" (ngSubmit)="CreateCategory()" [formGroup]="registerCategoryForm">
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"> <i class="bi bi-person-vcard"></i> </span>
+              <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="description">
+                @if(registerCategoryForm.controls['description'].invalid &&(registerCategoryForm.controls['description'].touched || registerCategoryForm.controls['description'].dirty)){
+                  <label class="text-danger" for="floatingInput">Precisa inserir uma descrição</label>
+                }@else {
+                  @if (registerCategoryForm.controls['description'].errors?.['required']) {
+                    <label for="floatingInput">Categoria</label>
+                  }@else {
+                    <label class="text-success" for="floatingInput">Descrição</label>
+                  }
+                }
+                
+              </div>
+            </div>
+  
+            <button class="w-100 btn btn-lg btn-dark" type="submit">{{ isEditMode ? 'Salvar Alterações' : 'Adicionar Categoria' }}</button>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>

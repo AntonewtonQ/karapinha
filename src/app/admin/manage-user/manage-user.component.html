@@ -1,0 +1,53 @@
+<div class="container-fluid my-4 px-4">
+    <h1 class="my-4">Contas para gerir</h1>
+
+    
+
+    <table class="table table-striped my-4">
+      <thead>
+        <tr>
+          <th scope="col">Nº</th>
+          <th scope="col">Profile</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Email</th>
+          <th scope="col">Telefone</th>
+          <th scope="col">Número do Bilhete</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (users.length>0) {
+          
+
+          @for (user of users; track $index) {
+            @if (user.role==='user') {
+              <tr>
+                <th scope="row">{{$index+1}}</th>
+                <th>{{user.photo}}</th>
+                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.phoneNumber}}</td>
+                <td>{{user.identityNumber}}</td>
+                @if (user.status===false) {
+                  <td>Desativado</td>
+                }@else {
+                  <td>Ativado</td>
+                }
+                
+                <td class="gap-2 d-flex align-content-end">
+                  <button (click)="ativarUsuario(user.id)" class="btn btn-success"><i class="bi bi-unlock"></i> Ativar </button>
+                  <button (click)="desativateUsuario(user.id)" class="btn btn-danger"><i class="bi bi-lock"></i> Desativar </button>
+                </td>
+              </tr>
+            }
+        }
+
+      }@else {
+        <tr>
+          <td colspan="8" class="text-center">Não existem Novos pedidos</td>
+        </tr>
+      }
+      </tbody>
+    </table>
+  </div>

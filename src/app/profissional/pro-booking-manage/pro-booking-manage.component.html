@@ -1,0 +1,140 @@
+<div class="container-fluid my-4 px-4">
+    <h1 class="my-4">Lista das Marcações</h1>
+    <div class="d-flex justify-content-center">
+        
+        <button type="button" class="btn btn-success p-4" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i class="bi bi-person-add"></i> Fzer Marcação</button>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nº</th>
+          <th scope="col">Hora e data de criação</th>
+          <th scope="col">Total a Pagar</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (bookings.length>0) {
+
+            @for (booking of bookings; track $index) {
+            <tr>
+              <th scope="row">{{$index+1}}</th>
+              <td>{{formatDate(booking.dateTime)}}</td>
+              <td>{{booking.totalPagar}}</td>
+              <td>{{booking.status}}</td>
+              <td>
+                <button class="btn btn-danger"  (click)="deleteBooking(booking.id)"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+          }
+
+        }@else {
+          <tr class="text-center">
+            <td colspan="6">Não existem Marcações registradas</td>
+          </tr>
+        }
+        
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ isEditMode ? 'Editar Categoria' : 'Adicionar Categoria' }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+        </div>
+        <div class="modal-body">
+          <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" (ngSubmit)="CreateBooking()" [formGroup]="registerBookingForm">
+            
+            <div class="input-group mb-3">
+                <span class="input-group-text"> <i class="bi bi-gear"></i> </span>
+                <div class="form-floating">
+                  <select class="form-select" id="floatingService" formControlName="userId">
+                    
+                    @for (user of users; track $index) {
+                      <option  [value]="user.id">{{user.name}}</option>
+                    }
+                  </select>
+                  <label for="floatingService">Usuário</label>
+                </div>
+              </div>
+            <div formArrayName="services">
+              
+              @for (serviceGroup of servicesArray.controls; track $index) {
+
+              <div [formGroupName]="$index">
+
+                <div class="input-group mb-3">
+                  <span class="input-group-text"> <i class="bi bi-tag"></i> </span>
+                  <div class="form-floating">
+                    <select class="form-select" id="floatingCategory" formControlName="categoryId" (change)="filterServicesByCategory(serviceGroup.get('categoryId')?.value, $index)">
+                        <option [value]="category.id">{{category.description}}</option>
+                    </select>
+                    <label for="floatingCategory">Categoria</label>
+                  </div>
+                </div>
+    
+                
+                  
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"> <i class="bi bi-gear"></i> </span>
+                      <div class="form-floating">
+                        <select class="form-select" id="floatingService" formControlName="serviceId">
+                          
+                          @for (service of filteredServices[$index]; track $index) {
+                            <option  [value]="service.id">{{service.description}}</option>
+                          }
+                        </select>
+                        <label for="floatingService">Serviço</label>
+                      </div>
+                    </div>
+        
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"> <i class="bi bi-person"></i> </span>
+                      <div class="form-floating">
+                        <select class="form-select"  id="floatingService" formControlName="profissionalId"  (change)="filterTimesByProfissional(serviceGroup.get('profissionalId')?.value, $index)">
+                            <option  [value]="user.id" selected>{{user.name}}</option>
+                        </select>
+                        <label for="floatingService">Profissionais</label>
+                      </div>
+                    </div>
+        
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"> <i class="bi bi-clock"></i> </span>
+                      <div class="form-floating">
+                        <input type="date" class="form-control" id="floatingDate" formControlName="serviceDate" [min]="today">
+                        <label for="floatingDate">Data</label>
+                      </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                      <span class="input-group-text"> <i class="bi bi-clock"></i> </span>
+                      <div class="form-floating">
+                        <select class="form-select" id="floatingTime" formControlName="serviceTime">
+                          @for (time of availableTimes[$index]; track $index) {
+                            <option [value]="time">{{time}}</option>
+                          }
+                        </select>
+                      </div>
+                    </div>
+  
+                    <button type="button" class="btn btn-danger mb-3" (click)="removeService($index)">Remover Serviço</button>
+
+              </div>
+                }
+            </div>
+
+
+            <button type="button" class="btn btn-primary mb-3" (click)="addService()">Adicionar Serviço</button>
+            
+
+            <button class="w-100 btn btn-lg btn-dark"  type="submit">Adicionar Marcação</button>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>

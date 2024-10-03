@@ -1,0 +1,75 @@
+<div class="container-fluid my-4 px-4">
+  <h1 class="my-4">Lista das Marcações</h1>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nº</th>
+        <th scope="col">Hora da Marcação</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Total a Pagar</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (bookings.length>0) {
+
+          @for (booking of bookings; track $index) {
+              <tr>
+                <th scope="row">{{$index+1}}</th>
+                <td>{{formatDate(booking.dateTime)}}</td>
+                <th>{{ getUserNameById(booking.userId)}}</th>
+                <td>{{booking.totalPagar}}</td>
+                <td>{{booking.status}}</td>
+               
+                
+                
+                <td class="gap-2 d-flex align-content-end">
+                  <button (click)="confirmBooking(booking.id)" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> <!-- Ícone de confirmação -->
+                </button>
+                <button (click)="prepareRescheduleBooking(booking)" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-primary">
+                    <i class="bi bi-calendar-plus"></i> <!-- Ícone de remarcação -->
+                </button>
+                  
+                </td>
+              </tr>
+        }
+
+      }@else {
+        <tr class="text-center">
+          <td colspan="6">Não existem Marcações registradas</td>
+        </tr>
+      }
+      
+    </tbody>
+  </table>
+</div>
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Remarcação</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+      </div>
+      <div class="modal-body">
+        <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary"  [formGroup]="rescheduleBookingForm" (ngSubmit)="rescheduleBooking()">
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-clock"></i> </span>
+            <div class="form-floating">
+              <input type="datetime-local" class="form-control" id="floatingDateTime" formControlName="serviceDateTime">
+              <label for="floatingDateTime">Data e Hora</label>
+            </div>
+          </div>
+
+          <button  class="w-100 btn btn-lg btn-dark" type="submit">Remarcar</button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>

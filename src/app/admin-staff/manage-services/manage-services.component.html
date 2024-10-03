@@ -1,0 +1,128 @@
+<div class="container-fluid my-4 px-4">
+    <h1 class="my-4">Lista dos serviços</h1>
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-secondary">Exportar</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i class="bi bi-person-add"></i> Adicionar Serviços</button>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nº</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Preço</th>
+          <th scope="col">Categoria</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (services.length>0) {
+
+            @for (service of services; track $index) {
+            <tr>
+              <th scope="row">{{$index+1}}</th>
+              <td>{{service.description}}</td>
+              <td>{{service.price}}</td>
+              <td>{{getCategoryName(service.categoryId)}}</td>
+             
+              
+              
+              <td class="gap-2 d-flex align-content-end">
+                <button (click)="onEdit(service)" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-warning"> 
+                  <i class="bi bi-pencil"></i> 
+                </button>
+                <button (click)="DeleteService(service.id)" class="btn btn-danger"> <i class="bi bi-trash"></i> </button>
+              </td>
+            </tr>
+          }
+
+        }@else {
+          <tr class="text-center">
+            <td colspan="5">Não existem Serviços registrados</td>
+          </tr>
+        }
+        
+      </tbody>
+    </table>
+  </div>
+
+  
+
+ 
+
+  
+
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ selectedServiceId ? 'Atualizar Serviço' : 'Adicionar Serviço' }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelEdit()" ></button>
+        </div>
+        <div class="modal-body">
+          <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" (ngSubmit)="CreateService()" [formGroup]="registerServiceForm" >
+            
+            <div class="input-group mb-3">
+              <span class="input-group-text"> <i class="bi bi-phone"></i> </span>
+              <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="description" >
+                @if(registerServiceForm.controls['description'].invalid && (registerServiceForm.controls['description'].touched || registerServiceForm.controls['description'].dirty)){
+                  <label class="text-danger" for="floatingInput">Precisa inserir uma descrição</label>
+                }@else {
+                  @if (registerServiceForm.controls['description'].errors?.['required']) {
+                    <label for="floatingInput">Descrição</label>
+                    
+                  }@else{
+                    <label class="text-success" for="floatingInput">Descrição</label>
+                  }
+                }
+              </div>
+            </div>
+            
+            <div class="input-group mb-3">
+              <span class="input-group-text"> <i class="bi bi-phone"></i> </span>
+              <div class="form-floating">
+                <input type="number" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="price" [min]="0">
+                @if(registerServiceForm.controls['price'].invalid && (registerServiceForm.controls['price'].touched || registerServiceForm.controls['price'].dirty)){
+                  <label class="text-danger" for="floatingInput">Precisa inserir o preço</label>
+                }@else {
+                  @if (registerServiceForm.controls['price'].errors?.['required']) {
+                    <label for="floatingInput">Preço</label>
+                    
+                  }@else{
+                    <label class="text-success" for="floatingInput">Preço</label>
+                  }
+                }
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              
+              @if(registerServiceForm.controls['categoryId'].invalid && (registerServiceForm.controls['categoryId'].touched || registerServiceForm.controls['categoryId'].dirty)){
+                <label class="input-group-text text-danger" for="inputGroupSelect01">Categorias</label>
+              }@else {
+                @if (registerServiceForm.controls['categoryId'].errors?.['required']) {
+                  <label class="input-group-text" for="inputGroupSelect01">Categorias</label>
+                  
+                }@else{
+                  <label class="input-group-text text-success" for="inputGroupSelect01">Categorias</label>
+                }
+              }
+              <select class="form-select" id="inputGroupSelect01" formControlName="categoryId">
+                <option selected disabled>Escolha...</option>
+
+                @for (category of categories; track $index) {
+                  <option value="{{category.id}}">{{category.description}}</option>
+                }
+              </select>
+            </div>
+        
+        
+            <button class="w-100 btn btn-lg btn-dark" type="submit" [disabled]="registerServiceForm.invalid">{{ selectedServiceId ? 'Atualizar Serviço' : 'Adicionar Serviço' }}</button>
+            
+          </form>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>

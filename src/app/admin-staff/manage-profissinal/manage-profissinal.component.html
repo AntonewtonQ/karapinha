@@ -1,0 +1,300 @@
+<div class="container-fluid my-4 px-4">
+    <h1 class="my-4">Lista dos Profissionais</h1>
+    <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> <i class="bi bi-person-add"></i> Adicionar Profissionais</button>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Profile</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Email</th>
+          <th scope="col">Telefone</th>
+          <th scope="col">Número do Bilhete</th>
+          <th scope="col">Categoria</th>
+          
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (profissionals.length>0) {
+          
+
+            @for (profissional of profissionals; track $index) {
+            <tr>
+              <th scope="row">{{$index +1}}</th>
+              <td>{{profissional.name}}</td>
+              <td>{{profissional.email}}</td>
+              <td>{{profissional.phoneNumber}}</td>
+              <td>{{profissional.identityNumber}}</td>
+              <td>{{getCategoryName(profissional.categoryId)}}</td>
+              
+              
+              <td class="gap-2 d-flex align-content-end">
+                <button class="btn btn-warning" (click)="onEdit(profissional.id)" data-bs-toggle="modal" data-bs-target="#editModal">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button (click)="onDelete(profissional.id)" class="btn btn-danger"> <i class="bi bi-trash"></i> </button>
+              </td>
+            </tr>
+          }
+
+        }@else {
+          <tr class="text-center">
+            <td colspan="7">Não existem profissionais registrados</td>
+          </tr>
+        }
+        
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Adicionar Profissionais</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" (ngSubmit)="onSubmit()" [formGroup]="registerProfissionlForm">
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"> <i class="bi bi-person-vcard"></i> </span>
+              <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="name">
+                @if(registerProfissionlForm.controls['name'].invalid &&(registerProfissionlForm.controls['name'].touched ||  registerProfissionlForm.controls['name'].dirty)){
+                  <label class="text-danger" for="floatingInput">Precisa inserir o nome</label>
+                }@else {
+                  @if (registerProfissionlForm.controls['name'].errors?.['required']) {
+                    <label for="floatingInput">Nome Completo</label>
+                  }@else {
+                    <label class="text-success" for="floatingInput">Nome Completo</label>
+                  }
+                }
+                
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"> <i class="bi bi-person"></i> </span>
+              <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="proName">
+                @if(registerProfissionlForm.controls['proName'].invalid&& (registerProfissionlForm.controls['proName'].touched ||   registerProfissionlForm.controls['proName'].dirty)){
+                  <label class="text-danger" for="floatingInput">Precisa inserir o username</label>
+                }@else {
+                  @if(registerProfissionlForm.controls['proName'].errors?.['required']){
+                    <label  for="floatingInput">Username</label>  
+                  }@else {
+                    <label class="text-success"  for="floatingInput">Username</label>
+                  }
+                  
+                }
+                
+              </div>
+            </div>
+  
+            
+  
+            <div class="input-group mb-3">
+              <span class="input-group-text"> <i class="bi bi-phone"></i> </span>
+              <div class="form-floating">
+                <input type="tel" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="phoneNumber" >
+                @if(registerProfissionlForm.controls['phoneNumber'].invalid && (registerProfissionlForm.controls['phoneNumber'].touched||   registerProfissionlForm.controls['phoneNumber'].dirty)){
+                  <label class="text-danger" for="floatingInput">Precisa inserir o número de telefone</label>
+                }@else {
+                  @if (registerProfissionlForm.controls['phoneNumber'].errors?.['required']) {
+                    <label for="floatingInput">Número de Telefone</label>
+                    
+                  }@else{
+                    <label class="text-success" for="floatingInput">Número de telefone</label>
+                  }
+                }
+              </div>
+            </div>
+  
+            <div class="input-group mb-3">
+              <span class="input-group-text"> <i class="bi bi-person-vcard"></i> </span>
+              <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="xxxxxxxLSxxx" formControlName="identityNumber">
+                @if (registerProfissionlForm.controls['identityNumber'].invalid && (registerProfissionlForm.controls['identityNumber'].touched || registerProfissionlForm.controls['identityNumber'].dirty)) {
+                  <label class="text-danger" for="floatingInput">Precisa inserir o número do Bilhete</label>
+                }@else {
+                  @if (registerProfissionlForm.controls['identityNumber'].errors?.['required']) {
+                    <label for="floatingInput">Número do Bilhete</label>
+                  }@else {
+                    <label class="text-success" for="floatingInput">Número do Bilhete</label>
+                  }
+                }
+              </div>
+            </div>
+  
+            <div class="input-group mb-3">
+              <span class="input-group-text"> <i class="bi bi-at"></i> </span>
+              <div class="form-floating">
+                <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" formControlName="email">
+                @if(registerProfissionlForm.controls['email'].invalid && (registerProfissionlForm.controls['email'].touched || registerProfissionlForm.controls['email'].dirty)){
+                  <label class="text-danger" for="floatingEmail">Precisa inserir o email</label>
+                }@else {
+                  @if (registerProfissionlForm.controls['email'].errors?.['required']) {
+                    <label for="floatingEmail">Email address</label>    
+                  }@else{
+                    <label class="text-success" for="floatingEmail">Email address</label>    
+                  }
+                }
+                
+              </div>
+            </div>
+
+            <label for="categoryId">Selecione a categoria</label>
+            <select name="categoryId" aria-placeholder="Categro" placeholder="Categoria" class="form-select mb-3" aria-label="Default select example" formControlName="categoryId">
+              <option disabled selected>Selecione a Categoria</option>
+              @for (category of categories; track $index) {
+                <option value="{{category.id}}">{{category.description}}</option>
+              }
+            </select>
+
+            <label for="profissionalSchedules">Selecione os Horários</label>
+            <select name="profissionalSchedules" class="form-select mb-3" formControlName="profissionalSchedules" multiple>
+              @for (schedule of schedules; track $index) {
+                <option  [value]="schedule.id"> {{ schedule.time }}</option>
+              }
+            </select>
+
+
+            <div class="input-group mb-3">
+              <span class="input-group-text"> <i class="bi bi-asterisk"></i> </span>
+              <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password">
+                @if (registerProfissionlForm.controls['password'].invalid && (registerProfissionlForm.controls['password'].touched ||  registerProfissionlForm.controls['password'].dirty)) {
+                  <label class="text-danger" for="floatingPassword">Password</label>
+                }@else {
+                  @if (registerProfissionlForm.controls['password'].errors?.['required']) {
+                    <label for="floatingPassword">Password</label>
+                  }@else {
+                    <label class="text-success" for="floatingPassword">Password</label>
+                  }
+                }
+                
+                
+              </div>
+            </div>
+
+            
+  
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupFile01"><i class="bi bi-card-image"></i></label>
+              <input type="file" class="form-control" id="inputGroupFile01" formControlName="photo">
+            </div>
+  
+            <button class="w-100 btn btn-lg btn-dark" type="submit">Adicionar Funcionário</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Edição -->
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editModalLabel">Editar Profissional</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" (ngSubmit)="onEditSubmit()" [formGroup]="editProfissionalForm">
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-person-vcard"></i> </span>
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="name">
+              @if(editProfissionalForm.controls['name'].invalid &&(editProfissionalForm.controls['name'].touched ||  editProfissionalForm.controls['name'].dirty)){
+                <label class="text-danger" for="floatingInput">Precisa inserir o nome</label>
+              }@else {
+                @if (editProfissionalForm.controls['name'].errors?.['required']) {
+                  <label for="floatingInput">Nome Completo</label>
+                }@else {
+                  <label class="text-success" for="floatingInput">Nome Completo</label>
+                }
+              }
+              
+            </div>
+          </div>
+
+          
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-phone"></i> </span>
+            <div class="form-floating">
+              <input type="tel" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="phoneNumber" >
+              @if(editProfissionalForm.controls['phoneNumber'].invalid && (editProfissionalForm.controls['phoneNumber'].touched||   editProfissionalForm.controls['phoneNumber'].dirty)){
+                <label class="text-danger" for="floatingInput">Precisa inserir o número de telefone</label>
+              }@else {
+                @if (editProfissionalForm.controls['phoneNumber'].errors?.['required']) {
+                  <label for="floatingInput">Número de Telefone</label>
+                  
+                }@else{
+                  <label class="text-success" for="floatingInput">Número de telefone</label>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-person-vcard"></i> </span>
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput" placeholder="xxxxxxxLSxxx" formControlName="identityNumber">
+              @if (editProfissionalForm.controls['identityNumber'].invalid && (editProfissionalForm.controls['identityNumber'].touched || editProfissionalForm.controls['identityNumber'].dirty)) {
+                <label class="text-danger" for="floatingInput">Precisa inserir o número do Bilhete</label>
+              }@else {
+                @if (editProfissionalForm.controls['identityNumber'].errors?.['required']) {
+                  <label for="floatingInput">Número do Bilhete</label>
+                }@else {
+                  <label class="text-success" for="floatingInput">Número do Bilhete</label>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-at"></i> </span>
+            <div class="form-floating">
+              <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" formControlName="email">
+              @if(editProfissionalForm.controls['email'].invalid && (editProfissionalForm.controls['email'].touched || editProfissionalForm.controls['email'].dirty)){
+                <label class="text-danger" for="floatingEmail">Precisa inserir o email</label>
+              }@else {
+                @if (editProfissionalForm.controls['email'].errors?.['required']) {
+                  <label for="floatingEmail">Email address</label>    
+                }@else{
+                  <label class="text-success" for="floatingEmail">Email address</label>    
+                }
+              }
+              
+            </div>
+          </div>
+
+          <select name="categoryId" class="form-select mb-3" aria-placeholder="Selecione a Categoria" aria-label="Default select example" formControlName="categoryId">
+            <option disabled selected>Selecione a Categoria</option>
+            @for (category of categories; track $index) {
+              <option value="{{category.id}}">{{category.description}}</option>
+            }
+          </select>
+
+          <label for="profissionalSchedules">Selecione os Horários</label>
+            <select name="profissionalSchedules" class="form-select mb-3" formControlName="profissionalSchedules" multiple>
+              @for (schedule of schedules; track $index) {
+                <option  [value]="schedule.id">{{ schedule.time }} </option>
+              }
+            </select>
+
+          
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01"><i class="bi bi-card-image"></i></label>
+            <input type="file" class="form-control" id="inputGroupFile01" formControlName="photo">
+          </div>
+          <button class="w-100 btn btn-lg btn-dark" type="submit">Atualizar Funcionário</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

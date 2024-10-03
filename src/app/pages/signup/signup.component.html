@@ -1,0 +1,143 @@
+<app-header/>
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-lg-5 bg-lg-secondary border-lg-1 rounded-lg-2 " id="login">
+    <div class="row align-items-center g-lg-5" >
+      
+      <div class="col-md-10 mx-auto col-lg-5 mb-5 mb-lg-0 " id="lado-direito">
+        <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-person-vcard"></i> </span>
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="name">
+              @if(registerForm.controls['name'].invalid &&(registerForm.controls['name'].touched ||  isFormSubmited|| registerForm.controls['name'].dirty)){
+                <label class="text-danger" for="floatingInput">Precisa inserir o nome</label>
+              }@else {
+                @if (registerForm.controls['name'].errors?.['required']) {
+                  <label for="floatingInput">Nome Completo</label>
+                }@else {
+                  <label class="text-success" for="floatingInput">Nome Completo</label>
+                }
+              }
+              
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-person"></i> </span>
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="userName">
+              @if(registerForm.controls['userName'].invalid&& (registerForm.controls['userName'].touched ||  isFormSubmited|| registerForm.controls['userName'].dirty)){
+                <label class="text-danger" for="floatingInput">Precisa inserir o username</label>
+              }@else {
+                @if(registerForm.controls['userName'].errors?.['required']){
+                  <label  for="floatingInput">Username</label>  
+                }@else {
+                  <label class="text-success"  for="floatingInput">Username</label>
+                }
+                
+              }
+              
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-phone"></i> </span>
+            <div class="form-floating">
+              <input type="tel" class="form-control" id="floatingInput" placeholder="João Alberto Pico" formControlName="phoneNumber" >
+              @if(registerForm.controls['phoneNumber'].invalid && (registerForm.controls['phoneNumber'].touched||  isFormSubmited || registerForm.controls['phoneNumber'].dirty)){
+                <label class="text-danger" for="floatingInput">Precisa inserir o número de telefone</label>
+              }@else {
+                @if (registerForm.controls['phoneNumber'].errors?.['required']) {
+                  <label for="floatingInput">Número de Telefone</label>
+                  
+                }@else{
+                  <label class="text-success" for="floatingInput">Número de telefone</label>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-person-vcard"></i> </span>
+            <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput" placeholder="xxxxxxxLSxxx" formControlName="biNumber">
+              @if (registerForm.controls['biNumber'].invalid && (registerForm.controls['biNumber'].touched ||  isFormSubmited|| registerForm.controls['biNumber'].dirty)) {
+                <label class="text-danger" for="floatingInput">Precisa inserir o número do Bilhete</label>
+              }@else {
+                @if (registerForm.controls['biNumber'].errors?.['required']) {
+                  <label for="floatingInput">Número do Bilhete</label>
+                }@else {
+                  <label class="text-success" for="floatingInput">Número do Bilhete</label>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-at"></i> </span>
+            <div class="form-floating">
+              <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" formControlName="email">
+              @if(registerForm.controls['email'].invalid && (registerForm.controls['email'].touched ||  isFormSubmited|| registerForm.controls['email'].dirty)){
+                <label class="text-danger" for="floatingEmail">Precisa inserir o email</label>
+              }@else {
+                @if (registerForm.controls['email'].errors?.['required']) {
+                  <label for="floatingEmail">Email address</label>    
+                }@else{
+                  <label class="text-success" for="floatingEmail">Email address</label>    
+                }
+              }
+              
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-asterisk"></i> </span>
+            <div class="form-floating">
+              <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password">
+              @if (registerForm.controls['password'].invalid && (registerForm.controls['password'].touched ||  isFormSubmited|| registerForm.controls['password'].dirty)) {
+                <label class="text-danger" for="floatingPassword">Password</label>
+              }@else {
+                @if (registerForm.controls['password'].errors?.['required']) {
+                  <label for="floatingPassword">Password</label>
+                }@else {
+                  <label class="text-success" for="floatingPassword">Password</label>
+                }
+              }
+              
+              
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"> <i class="bi bi-asterisk"></i> </span>
+            <div class="form-floating">
+              <input type="password" class="form-control" id="confirmPassword" placeholder="Password" formControlName="confirmPassword">
+              @if (registerForm.controls['confirmPassword'].invalid && (registerForm.controls['confirmPassword'].touched ||  isFormSubmited|| registerForm.controls['confirmPassword'].dirty)) {
+                <label class="text-danger" for="confirmPassword">Confirmar Password</label>
+              }@else if (registerForm.controls['confirmPassword'].errors?.['required']) {
+                <label for="confirmPassword">Confirmar Password</label>
+              }@else {
+                <label class="text-success" for="confirmPassword">Confirmar Password</label>
+              }
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01"><i class="bi bi-card-image"></i></label>
+            <input type="file" class="form-control" id="inputGroupFile01" formControlName="profile">
+          </div>
+
+          <button class="w-100 btn btn-lg btn-dark" type="submit">Criar Conta</button>
+          <hr class="my-4">
+          <small class="text-body-secondary text-center ">Ao clicar em criar conta, está concordando com nossos termos e condições. <br/> </small>
+          <small class="text-body-secondary">se já possui uma conta <a class="link-info" [routerLink]="['/login']">Entrar</a>.</small>
+        </form>
+      </div>
+
+      <div class="col-lg-7 text-center text-lg-start" id="lado-esquerdo">
+        <img src="https://images.unsplash.com/flagged/photo-1580820258381-20c91a156841?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid rounded" width="750" alt="">
+      </div>
+    </div>
+  </div>
+
